@@ -1,4 +1,4 @@
-// IAGPU: IA GPU Hardware Interface
+// IAGPU: IA GPU Hardware Interface.
 // Copyright (C) 2026 IAS (ias@iasoft.dev)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,7 +27,7 @@
   {                                                                                                                    \
     const auto r = call;                                                                                               \
     if IA_B_UNLIKELY (r != VK_SUCCESS)                                                                                 \
-      return fail(std::format("'{}' failed with code {}", description, (INT64) r));                                    \
+      return fail("'{}' failed with code {}", description, (i64) r);                                                   \
   }
 
 #define VK_ENUM_CALL(call, result, ...)                                                                                \

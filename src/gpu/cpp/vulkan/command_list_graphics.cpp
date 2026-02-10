@@ -1,4 +1,4 @@
-// IAGPU: IA GPU Hardware Interface
+// IAGPU: IA GPU Hardware Interface.
 // Copyright (C) 2026 IAS (ias@iasoft.dev)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,6 +15,6 @@
 
 #include <vulkan/device.hpp>
 
-namespace ia::gpu
+namespace ia::gpu::vulkan
 {
 }
