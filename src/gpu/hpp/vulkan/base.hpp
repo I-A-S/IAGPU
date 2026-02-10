@@ -15,7 +15,7 @@
 
 #pragma once
 
-#include <vulkan/context.hpp>
+#include <gpu/gpu.hpp>
 
 #include <crux/logger.hpp>
 

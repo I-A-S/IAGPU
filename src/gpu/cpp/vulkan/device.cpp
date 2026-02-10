@@ -13,6 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#define VMA_IMPLEMENTATION
+
 #include <vulkan/device.hpp>
 
 namespace ia::gpu::vulkan
@@ -221,8 +223,7 @@ namespace ia::gpu::vulkan
       vkGetPhysicalDeviceProperties(pd, &props);
       vkGetPhysicalDeviceFeatures(pd, &features);
 
-      if (props.deviceType != VkPhysicalDeviceType::VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU)
-        continue;
+      // [IATODO]: IMPL GPU Ranking
 
       if (m_surface == nullptr)
       {

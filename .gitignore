@@ -2,9 +2,9 @@
 .cache/
 .local/
 
-build/
-out/
+[Bb]uild/
+[Oo]ut/
 
-sandbox/
+[Ss]andbox/
 
 compile_commands.json

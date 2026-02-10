@@ -15,9 +15,10 @@
 
 #pragma once
 
+#include <gpu/config.hpp>
 #include <gpu/concepts.hpp>
 
 namespace ia::gpu
 {
-
+  static constexpr u32 MAX_PENDING_FRAME_COUNT = 3;
 }

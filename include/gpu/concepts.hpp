@@ -116,7 +116,7 @@ namespace ia::gpu
         { ctx.destroy_descriptor_tables(descriptor_tables) } -> std::same_as<void>;
         { ctx.update_descriptor_tables(descriptor_updates) } -> std::same_as<void>;
 
-        { ctx.resize_swapchain(u32_val, u32_val) } -> std::convertible_to<bool>;
+        { ctx.resize_swapchain(u32_val, u32_val) } -> std::same_as<Result<void>>;
         { ctx.get_back_buffer() } -> std::same_as<Texture>;
 
         { ctx.update_host_visible_buffer(buffer, u64_val, data_span) } -> std::same_as<void>;

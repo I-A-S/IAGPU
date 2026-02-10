@@ -59,5 +59,5 @@ public:
                       std::span<const TextureBlitRegion> regions, bool filter);
   };
 
-  static_assert(IsCommandList<CommandList>, "VulkanCommandList must satisfy IsCommandList concept");
+  static_assert(IsCommandList<CommandList>, "CommandList must satisfy IsCommandList concept");
 } // namespace ia::gpu::vulkan

@@ -26,7 +26,7 @@ crux_setup_project()
 option(IAGPU_ENABLE_BACKEND_VULKAN "Enable Vulkan Backend" ON)
 option(IAGPU_ENABLE_BACKEND_WEBGPU "Enable WebGPU Backend" OFF)
 option(IAGPU_ENABLE_PIPELINE_BAKER "Enable Pipeline Baker" ON)
-option(IAGPU_DISABLE_GRAPHICS "Disable Graphics Support (Headless Mode)" OFF)
+option(IAGPU_DISABLE_GRAPHICS "Disable Graphics Support (Headless Mode)" ON)
 
 option(IAGPU_BUILD_AUX "Build Aux Helpers" ON)
 option(IAGPU_BUILD_TESTS "Build unit tests" ${IAGPU_IS_TOP_LEVEL})
@@ -42,4 +42,9 @@ add_subdirectory(src/)
 
 if(IAGPU_BUILD_TESTS)
     add_subdirectory(tests)
+endif()
+
+# Local Development Sandbox
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/sandbox")
+    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/sandbox")
 endif()
