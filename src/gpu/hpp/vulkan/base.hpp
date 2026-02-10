@@ -17,6 +17,8 @@
 
 #include <vulkan/context.hpp>
 
+#include <crux/logger.hpp>
+
 #define VMA_STATIC_VULKAN_FUNCTIONS 0
 #define VMA_DYNAMIC_VULKAN_FUNCTIONS 0
 
@@ -37,6 +39,12 @@
     result.resize(__count);                                                                                            \
     call(__VA_ARGS__, &__count, result.data());                                                                        \
   }
+
+#define GPU_LOG_TRACE(...) IA_LOG_TRACE("[GPU]: " __VA_ARGS__)
+#define GPU_LOG_DEBUG(...) IA_LOG_DEBUG("[GPU]: " __VA_ARGS__)
+#define GPU_LOG_INFO(...) IA_LOG_INFO("[GPU]: " __VA_ARGS__)
+#define GPU_LOG_WARN(...) IA_LOG_WARN("[GPU]: " __VA_ARGS__)
+#define GPU_LOG_ERROR(...) IA_LOG_ERROR("[GPU]: " __VA_ARGS__)
 
 namespace ia::gpu::vulkan
 {

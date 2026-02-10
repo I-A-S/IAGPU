@@ -30,7 +30,7 @@ public:
 public:
     [[nodiscard]] auto get_handle() const -> VkDevice
     {
-      return m_device;
+      return m_handle;
     }
 
     [[nodiscard]] auto get_physical_hande() const -> VkPhysicalDevice
@@ -84,7 +84,7 @@ private:
     auto select_physical_device(VkInstance instance) -> Result<VkPhysicalDevice>;
 
 private:
-    VkDevice m_device{};
+    VkDevice m_handle{};
     VkPhysicalDevice m_physical_device{};
 
     VkQueue m_compute_queue{};
