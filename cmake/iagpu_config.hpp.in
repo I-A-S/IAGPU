@@ -1,0 +1,10 @@
+#pragma once
+
+#cmakedefine01 IAGPU_DISABLE_GRAPHICS
+
+// Backend
+#cmakedefine01 IAGPU_ENABLE_BACKEND_VULKAN
+#cmakedefine01 IAGPU_ENABLE_BACKEND_WEBGPU
+
+// Features
+#cmakedefine01 IAGPU_ENABLE_PIPELINE_BAKER
