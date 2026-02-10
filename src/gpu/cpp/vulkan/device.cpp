@@ -35,7 +35,7 @@ namespace ia::gpu::vulkan
         .poolSizeCount = 4,
         .pPoolSizes = pool_sizes,
     };
-    VK_CALL(vkCreateDescriptorPool(m_handle, &pool_info, nullptr, &m_descriptor_pool),
+    VK_CALL(vkCreateDescriptorPool(m_handle, &pool_info, nullptr, m_descriptor_pool.ptr()),
             "Failed to create descriptor pool");
 
     return {};
@@ -146,7 +146,7 @@ namespace ia::gpu::vulkan
         .enabledExtensionCount = static_cast<u32>(extensions.size()),
         .ppEnabledExtensionNames = extensions.data(),
     };
-    VK_CALL(vkCreateDevice(m_physical_device, &device_create_info, nullptr, &m_handle), "Creating logical device");
+    VK_CALL(vkCreateDevice(m_physical_device, &device_create_info, nullptr, m_handle.ptr()), "Creating logical device");
 
     volkLoadDevice(m_handle);
 
@@ -178,7 +178,7 @@ namespace ia::gpu::vulkan
     fence_create_info.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
     fence_create_info.flags = VK_FENCE_CREATE_SIGNALED_BIT;
 
-    VK_CALL(vkCreateFence(m_handle, &fence_create_info, nullptr, &m_command_submit_fence),
+    VK_CALL(vkCreateFence(m_handle, &fence_create_info, nullptr, m_command_submit_fence.ptr()),
             "Creating command submit fence");
 
     Mut<VmaAllocatorCreateInfo> allocator_create_info{
@@ -190,7 +190,7 @@ namespace ia::gpu::vulkan
     Mut<VmaVulkanFunctions> vma_vulkan_functions{};
     VK_CALL(vmaImportVulkanFunctionsFromVolk(&allocator_create_info, &vma_vulkan_functions), "Importing VMA functions");
     allocator_create_info.pVulkanFunctions = &vma_vulkan_functions;
-    VK_CALL(vmaCreateAllocator(&allocator_create_info, &m_allocator), "Creating VMA allocator");
+    VK_CALL(vmaCreateAllocator(&allocator_create_info, m_allocator.ptr()), "Creating VMA allocator");
 
     return {};
   }

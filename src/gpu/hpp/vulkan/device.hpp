@@ -103,10 +103,13 @@ private:
 
     VkSurfaceKHR m_surface{};
 
-    UniqueVulkanHandle<VkFence, [](VkDevice device, VkFence fence) { vkDestroyFence(device, fence, nullptr); }>
+    UniqueDependentHandle<VkFence, VkDevice, VK_NULL_HANDLE,
+                          [](VkDevice device, VkFence fence) { vkDestroyFence(device, fence, nullptr); }>
         m_command_submit_fence;
-    UniqueVulkanHandle<VkDescriptorPool,
-                       [](VkDevice device, VkDescriptorPool pool) { vkDestroyDescriptorPool(device, pool, nullptr); }>
+    UniqueDependentHandle<VkDescriptorPool, VkDevice, VK_NULL_HANDLE,
+                          [](VkDevice device, VkDescriptorPool pool) {
+                            vkDestroyDescriptorPool(device, pool, nullptr);
+                          }>
         m_descriptor_pool;
 
 public:

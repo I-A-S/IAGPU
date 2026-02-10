@@ -18,6 +18,7 @@
 #include <gpu/gpu.hpp>
 
 #include <crux/logger.hpp>
+#include <crux/unique_handle.hpp>
 
 #define VMA_STATIC_VULKAN_FUNCTIONS 0
 #define VMA_DYNAMIC_VULKAN_FUNCTIONS 0
@@ -49,109 +50,6 @@
 namespace ia::gpu::vulkan
 {
   static constexpr u32 VULKAN_API_VERSION = VK_MAKE_VERSION(1, 3, 0);
-
-  template<typename HandleT, HandleT InvalidValue, auto DestructorT> class UniqueHandle
-  {
-public:
-    UniqueHandle() = default;
-
-    UniqueHandle(const UniqueHandle &h) = delete;
-    UniqueHandle &operator=(const UniqueHandle &) = delete;
-
-    UniqueHandle(UniqueHandle &&h) : m_handle(std::move(h.m_handle))
-    {
-      h.m_handle = InvalidValue;
-    }
-
-    UniqueHandle &operator=(UniqueHandle &&h)
-    {
-      m_handle = h;
-      h.m_handle = InvalidValue;
-    }
-
-    ~UniqueHandle()
-    {
-      if (m_handle != InvalidValue)
-        DestructorT(m_handle);
-    }
-
-    operator HandleT &()
-    {
-      return m_handle;
-    }
-
-    operator const HandleT &() const
-    {
-      return m_handle;
-    }
-
-    HandleT *operator&()
-    {
-      return &m_handle;
-    }
-
-    const HandleT *operator&() const
-    {
-      return &m_handle;
-    }
-
-private:
-    HandleT m_handle{InvalidValue};
-  };
-
-  template<typename HandleT, auto DestructorT> class UniqueVulkanHandle
-  {
-public:
-    UniqueVulkanHandle() = default;
-
-    UniqueVulkanHandle(VkDevice device, HandleT &&handle) : m_device(device), m_handle(std::move(handle))
-    {
-    }
-
-    UniqueVulkanHandle(const UniqueVulkanHandle &h) = delete;
-    UniqueVulkanHandle &operator=(const UniqueVulkanHandle &) = delete;
-
-    UniqueVulkanHandle(UniqueVulkanHandle &&h) : m_handle(std::move(h.m_handle))
-    {
-      h.m_handle = VK_NULL_HANDLE;
-    }
-
-    UniqueVulkanHandle &operator=(UniqueVulkanHandle &&h)
-    {
-      m_handle = h;
-      h.m_handle = VK_NULL_HANDLE;
-    }
-
-    ~UniqueVulkanHandle()
-    {
-      if ((m_device != VK_NULL_HANDLE) && (m_handle != VK_NULL_HANDLE))
-        DestructorT(m_device, m_handle);
-    }
-
-    operator HandleT &()
-    {
-      return m_handle;
-    }
-
-    operator const HandleT &() const
-    {
-      return m_handle;
-    }
-
-    HandleT *operator&()
-    {
-      return &m_handle;
-    }
-
-    const HandleT *operator&() const
-    {
-      return &m_handle;
-    }
-
-private:
-    VkDevice m_device{VK_NULL_HANDLE};
-    HandleT m_handle{VK_NULL_HANDLE};
-  };
 
   struct BufferImpl
   {
