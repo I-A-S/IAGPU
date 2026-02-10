@@ -118,32 +118,31 @@ namespace ia::gpu::vulkan
   {
   }
 
-  Context::~Context()
-  {
-    // [IATODO]
-    // #if !IAGPU_DISABLE_GRAPHICS
-    //     destroy_swapchain();
-    //     vkDestroySurfaceKHR(m_instance, m_surface, nullptr);
-    // #else
-    //     for (UINT32 i = 0; i < MAX_PENDING_FRAME_COUNT; i++)
-    //     {
-    //       for (auto &t : m_frames[i].cmdListCache)
-    //         delete t;
-    //       m_frames[i].cmdListCache.clear();
-    //       m_frames[i].usedCmdListCount = 0;
-    //       vkDestroyFence(m_device.GetHandle(), m_frames[i].inFlightFence, nullptr);
-    //       vkDestroyCommandPool(m_device.GetHandle(), m_frames[i].commandPool, nullptr);
-    //     }
-    // #endif
-    //
-    //     destroy_buffers(1, &m_staging_buffer_handle);
-    //
-    //     vkDestroyCommandPool(m_device.get_handle(), m_transient_command_pool, nullptr);
-    //
-    //     destroy_samplers(1, &m_default_sampler);
+  // Context::~Context()
+  //{
+  //  [IATODO]
+  //  #if !IAGPU_DISABLE_GRAPHICS
+  //      destroy_swapchain();
+  //      vkDestroySurfaceKHR(m_instance, m_surface, nullptr);
+  //  #else
+  //      for (UINT32 i = 0; i < MAX_PENDING_FRAME_COUNT; i++)
+  //      {
+  //        for (auto &t : m_frames[i].cmdListCache)
+  //          delete t;
+  //        m_frames[i].cmdListCache.clear();
+  //        m_frames[i].usedCmdListCount = 0;
+  //        vkDestroyFence(m_device.GetHandle(), m_frames[i].inFlightFence, nullptr);
+  //        vkDestroyCommandPool(m_device.GetHandle(), m_frames[i].commandPool, nullptr);
+  //      }
+  //  #endif
+  //
+  //      destroy_buffers(1, &m_staging_buffer_handle);
+  //
+  //      vkDestroyCommandPool(m_device.get_handle(), m_transient_command_pool, nullptr);
+  //
+  //      destroy_samplers(1, &m_default_sampler);
 
-    destroy_instance();
-  }
+  //}
 
   auto Context::initialize_instance(bool enable_validation) -> Result<void>
   {

@@ -99,13 +99,15 @@ private:
     u32 m_compute_queue_family{UINT32_MAX};
     u32 m_transfer_queue_family{UINT32_MAX};
 
-    VkFence m_command_submit_fence;
-
     UniqueHandle<VmaAllocator, VK_NULL_HANDLE, vmaDestroyAllocator> m_allocator;
 
     VkSurfaceKHR m_surface{};
 
-    VkDescriptorPool m_descriptor_pool{VK_NULL_HANDLE};
+    UniqueVulkanHandle<VkFence, [](VkDevice device, VkFence fence) { vkDestroyFence(device, fence, nullptr); }>
+        m_command_submit_fence;
+    UniqueVulkanHandle<VkDescriptorPool,
+                       [](VkDevice device, VkDescriptorPool pool) { vkDestroyDescriptorPool(device, pool, nullptr); }>
+        m_descriptor_pool;
 
 public:
     Device() = default;

@@ -30,7 +30,7 @@ public:
 
     Context(Context &&) = default;
 
-    ~Context();
+    ~Context() = default;
 
     static auto create(Ref<ContextConfig> config) -> Result<Context>;
 

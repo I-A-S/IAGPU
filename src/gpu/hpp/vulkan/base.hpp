@@ -53,6 +53,8 @@ namespace ia::gpu::vulkan
   template<typename HandleT, HandleT InvalidValue, auto DestructorT> class UniqueHandle
   {
 public:
+    UniqueHandle() = default;
+
     UniqueHandle(const UniqueHandle &h) = delete;
     UniqueHandle &operator=(const UniqueHandle &) = delete;
 
@@ -73,6 +75,26 @@ public:
         DestructorT(m_handle);
     }
 
+    operator HandleT &()
+    {
+      return m_handle;
+    }
+
+    operator const HandleT &() const
+    {
+      return m_handle;
+    }
+
+    HandleT *operator&()
+    {
+      return &m_handle;
+    }
+
+    const HandleT *operator&() const
+    {
+      return &m_handle;
+    }
+
 private:
     HandleT m_handle{InvalidValue};
   };
@@ -80,6 +102,8 @@ private:
   template<typename HandleT, auto DestructorT> class UniqueVulkanHandle
   {
 public:
+    UniqueVulkanHandle() = default;
+
     UniqueVulkanHandle(VkDevice device, HandleT &&handle) : m_device(device), m_handle(std::move(handle))
     {
     }
@@ -101,7 +125,27 @@ public:
     ~UniqueVulkanHandle()
     {
       if ((m_device != VK_NULL_HANDLE) && (m_handle != VK_NULL_HANDLE))
-        DestructorT(m_handle);
+        DestructorT(m_device, m_handle);
+    }
+
+    operator HandleT &()
+    {
+      return m_handle;
+    }
+
+    operator const HandleT &() const
+    {
+      return m_handle;
+    }
+
+    HandleT *operator&()
+    {
+      return &m_handle;
+    }
+
+    const HandleT *operator&() const
+    {
+      return &m_handle;
     }
 
 private:

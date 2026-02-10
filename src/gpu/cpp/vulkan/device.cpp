@@ -41,17 +41,6 @@ namespace ia::gpu::vulkan
     return {};
   }
 
-  auto Device::shutdown() -> void
-  {
-    vkDestroyFence(m_handle, m_command_submit_fence, nullptr);
-
-    vkDestroyDescriptorPool(m_handle, m_descriptor_pool, nullptr);
-
-    vmaDestroyAllocator(m_allocator);
-
-    vkDestroyDevice(m_handle, nullptr);
-  }
-
   auto Device::wait_idle() -> void
   {
     vkDeviceWaitIdle(m_handle);
