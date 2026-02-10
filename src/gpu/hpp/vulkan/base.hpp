@@ -50,6 +50,65 @@ namespace ia::gpu::vulkan
 {
   static constexpr u32 VULKAN_API_VERSION = VK_MAKE_VERSION(1, 3, 0);
 
+  template<typename HandleT, HandleT InvalidValue, auto DestructorT> class UniqueHandle
+  {
+public:
+    UniqueHandle(const UniqueHandle &h) = delete;
+    UniqueHandle &operator=(const UniqueHandle &) = delete;
+
+    UniqueHandle(UniqueHandle &&h) : m_handle(std::move(h.m_handle))
+    {
+      h.m_handle = InvalidValue;
+    }
+
+    UniqueHandle &operator=(UniqueHandle &&h)
+    {
+      m_handle = h;
+      h.m_handle = InvalidValue;
+    }
+
+    ~UniqueHandle()
+    {
+      if (m_handle != InvalidValue)
+        DestructorT(m_handle);
+    }
+
+private:
+    HandleT m_handle{InvalidValue};
+  };
+
+  template<typename HandleT, auto DestructorT> class UniqueVulkanHandle
+  {
+public:
+    UniqueVulkanHandle(VkDevice device, HandleT &&handle) : m_device(device), m_handle(std::move(handle))
+    {
+    }
+
+    UniqueVulkanHandle(const UniqueVulkanHandle &h) = delete;
+    UniqueVulkanHandle &operator=(const UniqueVulkanHandle &) = delete;
+
+    UniqueVulkanHandle(UniqueVulkanHandle &&h) : m_handle(std::move(h.m_handle))
+    {
+      h.m_handle = VK_NULL_HANDLE;
+    }
+
+    UniqueVulkanHandle &operator=(UniqueVulkanHandle &&h)
+    {
+      m_handle = h;
+      h.m_handle = VK_NULL_HANDLE;
+    }
+
+    ~UniqueVulkanHandle()
+    {
+      if ((m_device != VK_NULL_HANDLE) && (m_handle != VK_NULL_HANDLE))
+        DestructorT(m_handle);
+    }
+
+private:
+    VkDevice m_device{VK_NULL_HANDLE};
+    HandleT m_handle{VK_NULL_HANDLE};
+  };
+
   struct BufferImpl
   {
     VmaAllocator vma_allocator;

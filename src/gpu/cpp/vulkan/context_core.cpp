@@ -142,8 +142,6 @@ namespace ia::gpu::vulkan
     //
     //     destroy_samplers(1, &m_default_sampler);
 
-    m_device.shutdown();
-
     destroy_instance();
   }
 

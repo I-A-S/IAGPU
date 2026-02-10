@@ -22,8 +22,13 @@ namespace ia::gpu::vulkan
   class Device
   {
 public:
+    Device(const Device &) = delete;
+    Device &operator=(const Device &) = delete;
+
+    Device(Device &&) = default;
+    Device &operator=(Device &&) = default;
+
     auto boot(VkInstance instance, VkSurfaceKHR surface, Span<const char *> extensions) -> Result<void>;
-    auto shutdown() -> void;
 
     auto wait_idle() -> void;
 
@@ -84,7 +89,7 @@ private:
     auto select_physical_device(VkInstance instance) -> Result<VkPhysicalDevice>;
 
 private:
-    VkDevice m_handle{};
+    UniqueHandle<VkDevice, VK_NULL_HANDLE, [](VkDevice device) { vkDestroyDevice(device, nullptr); }> m_handle;
     VkPhysicalDevice m_physical_device{};
 
     VkQueue m_compute_queue{};
@@ -96,7 +101,7 @@ private:
 
     VkFence m_command_submit_fence;
 
-    VmaAllocator m_allocator{};
+    UniqueHandle<VmaAllocator, VK_NULL_HANDLE, vmaDestroyAllocator> m_allocator;
 
     VkSurfaceKHR m_surface{};
 
@@ -104,6 +109,10 @@ private:
 
 public:
     Device() = default;
-    ~Device() = default;
+
+    ~Device()
+    {
+      wait_idle();
+    };
   };
 } // namespace ia::gpu::vulkan

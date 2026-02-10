@@ -25,6 +25,11 @@ namespace ia::gpu::vulkan
 public:
     using CmdListType = CommandList;
 
+    Context(const Context &) = delete;
+    Context &operator=(const Context &) = delete;
+
+    Context(Context &&) = default;
+
     ~Context();
 
     static auto create(Ref<ContextConfig> config) -> Result<Context>;

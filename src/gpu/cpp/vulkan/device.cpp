@@ -43,11 +43,6 @@ namespace ia::gpu::vulkan
 
   auto Device::shutdown() -> void
   {
-    if (!m_handle)
-      return;
-
-    wait_idle();
-
     vkDestroyFence(m_handle, m_command_submit_fence, nullptr);
 
     vkDestroyDescriptorPool(m_handle, m_descriptor_pool, nullptr);
